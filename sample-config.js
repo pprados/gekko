@@ -440,7 +440,7 @@ config.importer = {
 //                       CONFIGURING LABS
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// To use the labs, indicate all the variables to change for each firing
+// To use the labs, indicate all the variables to change for each launch
 // with a 'for' loop design.
 // For each variable, add an object in patchs with
 // - 'path' with the name of the variable (in config)
@@ -452,18 +452,19 @@ config.importer = {
 // {
 //    path:"backtest.daterange",
 //    exloop:[
-//       '',
+//       '// init',
 //       'moment(config.{}.to).isBefore("2017-03-07")',
-//       'slideWindow(config.{},1, "day")'
+//       'slideWindow(config.{},1, "day")',
+//       '// const x=require(...)
 //    ],
 // }
 //
 // All the results are saved in 'file' with CSV format.
-// To start, use 'node labgekko --config ...' in place of 'node gekko --config ...'
+// To start, use 'node labgekko --backtest --config ...' in place of 'node gekko --backtest --config ...'
 config.lab={
   enabled:true,
   file:"labs/"+config.tradingAdvisor.method+".csv",
-  // Can be omitted or reorders
+  // Fields to add in CSV. Can be omitted or reorders
   fields:[
     "method",
     // "exchange","currency","asset",
@@ -477,6 +478,7 @@ config.lab={
     "relativeProfit",
     "relativeResult"
   ],
+  // Lists of modification to apply in config.
   patchs:[
     { // 10
       path: "MACD.short",
@@ -490,7 +492,7 @@ config.lab={
       path: "MACD.signal",
       loop: ["8", "<= 10", "+ 1"], // Normal:9
     },
-    // Sample of complex loop
+    // Sample of complex loop with sliding window
     // {
     //   path:"backtest.daterange",
     //   exloop:[
