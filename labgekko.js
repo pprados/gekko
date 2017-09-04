@@ -269,7 +269,8 @@ function newSimulation(cb) {
     function(report) {
       saveReport(report);
       var result=calulateResult(report);
-      log.info("Result="+result.toFixed(0)+" ("+((result>0) ? "Good deal !" :"Better than the market if positif")+")");
+      log.info();
+      log.info("Difference with marker ="+result.toFixed(0)+" ("+((result>0) ? "Good deal !" :"")+")");
       cb();
     });
 }
@@ -289,6 +290,7 @@ function printPatchedConfig() {
   for (var i=0;i<config.lab.values.length;++i) {
     log.info(config.lab.values[i].path+" = "+JSON.stringify(config.lab.values[i].value))
   }
+  log.info();
 }
 
 // -------------- Start the experience
