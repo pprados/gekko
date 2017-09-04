@@ -324,6 +324,16 @@ function start() {
 
 }
 
+// helper to store the evenutally detected
+// daterange.
+var setDateRange = function(from, to) {
+  config.backtest.daterange = {
+    from: moment.unix(from).utc().format(),
+    to: moment.unix(to).utc().format(),
+  };
+  util.setConfig(config);
+}
+
 if (config.backtest.daterange === 'scan') {
   scan((err, ranges) => {
     if(_.size(ranges) === 0)
