@@ -57,6 +57,7 @@ const trades = [ { price: 81, amount: 1, date: '2015-01-01 00:00:00', profit: 0 
   { price: 68, amount: -1, date: '2015-01-02 13:00:00', profit: -13 },
   { price: 9, amount: -1, date: '2015-01-02 14:00:00', profit: -72 } ];
 
+<<<<<<< 587d094f1463cd385c73594a805eadd48b76d141
 describe('strategies/TSI', function() {
 
   const start = moment("2015-01-01");
@@ -80,4 +81,25 @@ describe('strategies/TSI', function() {
     done();
   });
 });
+=======
+
+const start=moment("2015-01-01");
+const candles = [];
+for (var i=0;i<prices.length;++i) {
+  candles.push(
+    {
+      id: i,
+      start:start.format('YYYY-MM-DD HH:mm:ss'),
+      open:prices[i],
+      high:prices[i],
+      low:prices[i],
+      close:prices[i]
+    });
+  start.add(1,"hour")
+}
+const tradeHistory=mock.inject(candles).getTradeHistory();
+assert(tradeHistory.length>0);
+assert.deepEqual(tradeHistory,trades);
+
+>>>>>>> Add unittest for strategies
 
