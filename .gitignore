@@ -12,6 +12,7 @@
 
 # OS or Editor folders
 .DS_Store
+gekko.iml
 Thumbs.db
 config.js
 api-keys.js
