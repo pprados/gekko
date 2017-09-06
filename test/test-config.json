@@ -6,7 +6,8 @@
     "asset": "BTC"
   },
   "tradingAdvisor": {
-    "enabled": false
+    "enabled": false,
+    "talib": { "enabled":false }
   },
   "trader": {
     "enabled": false
