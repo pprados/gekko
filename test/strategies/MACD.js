@@ -61,23 +61,27 @@ const trades = [ { price: 81, amount: -1, date: '2015-01-01 00:00:00', profit: 8
   { price: 68, amount: -1, date: '2015-01-02 13:00:00', profit: 68 },
   { price: 9, amount: -1, date: '2015-01-02 14:00:00', profit: 9 } ];
 
+describe('strategies/MACD', function() {
 
-const start=moment("2015-01-01");
-const candles = [];
-for (var i=0;i<prices.length;++i) {
-  candles.push(
-    {
-      id: i,
-      start:start.format('YYYY-MM-DD HH:mm:ss'),
-      open:prices[i],
-      high:prices[i],
-      low:prices[i],
-      close:prices[i]
-    });
-  start.add(1,"hour")
-}
-const tradeHistory=mock.inject(candles).getTradeHistory();
-assert(tradeHistory.length>0);
-assert.deepEqual(tradeHistory,trades);
-
+  const start = moment("2015-01-01");
+  const candles = [];
+  for (var i = 0; i < prices.length; ++i) {
+    candles.push(
+      {
+        id: i,
+        start: start.format('YYYY-MM-DD HH:mm:ss'),
+        open: prices[i],
+        high: prices[i],
+        low: prices[i],
+        close: prices[i]
+      });
+    start.add(1, "hour")
+  }
+  it('should produce trades without error', function(done) {
+    const tradeHistory = mock.inject(candles).getTradeHistory();
+    assert(tradeHistory.length > 0);
+    assert.deepEqual(tradeHistory, trades);
+    done();
+  });
+});
 
