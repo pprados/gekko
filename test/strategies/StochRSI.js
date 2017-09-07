@@ -57,7 +57,6 @@ const trades = [ { price: 81, amount: -1, date: '2015-01-01 00:00:00', profit: 8
   { price: 9, amount: -1, date: '2015-01-02 14:00:00', profit: -90 } ];
 
 
-<<<<<<< 587d094f1463cd385c73594a805eadd48b76d141
 describe('strategies/StockRSI', function() {
 
   const start = moment("2015-01-01");
@@ -75,30 +74,12 @@ describe('strategies/StockRSI', function() {
     start.add(1, "hour")
   }
   it('should produce trades without error', function(done) {
+    mock.settings=config.StochRSI;
+    mock.tradingAdvisor=config.tradingAdvisor;
     const tradeHistory = mock.inject(candles).getTradeHistory();
     assert(tradeHistory.length > 0);
     assert.deepEqual(tradeHistory, trades);
     done();
   });
 });
-=======
-const start=moment("2015-01-01");
-const candles = [];
-for (var i=0;i<prices.length;++i) {
-  candles.push(
-    {
-      id: i,
-      start:start.format('YYYY-MM-DD HH:mm:ss'),
-      open:prices[i],
-      high:prices[i],
-      low:prices[i],
-      close:prices[i]
-    });
-  start.add(1,"hour")
-}
-const tradeHistory=mock.inject(candles).getTradeHistory();
-assert(tradeHistory.length>0);
-assert.deepEqual(tradeHistory,trades);
-
->>>>>>> Add unittest for strategies
 
