@@ -60,7 +60,6 @@ const trades = [
   { price: 9, amount: -1, date: '2015-01-02 14:00:00', profit: -72 } ];
 
 
-<<<<<<< f63269beaab54920979604d8e97018e7ff4b2722
 describe('strategies/UO', function() {
 
   const start = moment("2015-01-01");
@@ -86,24 +85,4 @@ describe('strategies/UO', function() {
     done();
   });
 });
-=======
-const start=moment("2015-01-01");
-const candles = [];
-for (var i=0;i<prices.length;++i) {
-  candles.push(
-    {
-      id: i,
-      start:start.format('YYYY-MM-DD HH:mm:ss'),
-      open:prices[i],
-      high:prices[i],
-      low:prices[i],
-      close:prices[i]
-    });
-  start.add(1,"hour")
-}
-const tradeHistory=mock.inject(candles).getTradeHistory();
-assert(tradeHistory.length>0);
-assert.deepEqual(tradeHistory,trades);
-
->>>>>>> Add unittest for strategies
 
