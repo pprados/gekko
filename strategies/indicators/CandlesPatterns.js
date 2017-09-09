@@ -30,10 +30,7 @@
  *
  * @see https://www.abcbourse.com/apprendre/10_chgt_tendance_1.html (french)
  * @see http://stockcharts.com/school/doku.php?id=chart_school:chart_analysis:introduction_to_candlesticks
-<<<<<<< 94d3b026493367baea8641e20472e25383aa2dbe
  * @author Philippe Prados
-=======
->>>>>>> merge
  */
 
 var log = require('../../core/log');
@@ -83,6 +80,20 @@ Indicator.prototype.last=function() {
   return this.hist[this.size-1];
 };
 
+Indicator.prototype.buildWithPattern = function(candle) {
+  return {
+    candle:candle,
+    pattern: {
+      direction: candle.close-candle.open, // >0 up, <0 down, 0 unknown
+      realBody: Math.abs(candle.close-candle.open), // Taille du corps
+      upperShadow: Math.abs(candle.high-Math.max(candle.open,candle.close)),
+      lowerShadow: Math.abs(Math.min(candle.open,candle.close)-candle.low),
+      body:candle.high-candle.low,
+      type:undefined,
+      average:(candle.high+candle.close+candle.open+candle.close)/4,
+    },
+  }
+}
 Indicator.prototype.update = function(candle) {
 
   // We need sufficient history to get the right result.
