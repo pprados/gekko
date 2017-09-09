@@ -32,8 +32,10 @@ config.watch = {
 
 config.tradingAdvisor = {
   enabled: true,
-  method: 'MACD',
-  candleSize: 60, // FIXME: 1
+//  method: 'MACD',
+//  candleSize: 1,
+  method: 'CandlesPatterns',
+  candleSize: 1,
   historySize: 3,
   adapter: 'sqlite',
   talib: {
@@ -41,6 +43,17 @@ config.tradingAdvisor = {
     version: '1.0.2'
   }
 }
+
+// Candles Patterns detection settings:
+config.CandlesPatterns={
+  scaleMaxSize: 50,       // Scale based of the 'scaleMaxSize' previous candles
+  strategy:'average',     // 'max', 'average', 'median' or 'fixed'
+  dojiLimit:4/100,        // Doji is limited to 4% of the current scale
+  shortLimit:15/100,      // Short body is limited to 15% of the current scale
+  longLimit:20/100,       // Long body must be bigger of 20% of the current scale
+  sameShadowLimit:4/100,  // Tolerance of 4% when compare equality of two shadows
+  persistanceBeforHammerOrHangingMan:2, // Number of candle in the same direction before an Hammer or HangingMan
+};
 
 // Exponential Moving Averages settings:
 config.DEMA = {
