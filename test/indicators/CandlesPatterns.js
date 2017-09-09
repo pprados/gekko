@@ -11,12 +11,12 @@ const settings={
 };
 const candlePattern=require("../../strategies/indicators/CandlesPatterns.js");
 
-var indicator=new candlePattern(settings);
 
 // -------------------------- Single candle --------------------------
 describe('indicators/CandlesPatterns', function() {
 
-  it('should detect a "Hammer" pattern', function(done) {
+  var indicator = new candlePattern(settings);
+  it('should detect a "Hammer" pattern', function (done) {
     // ###
     // ###
     //  |
@@ -28,7 +28,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "InvertedHammer" pattern', function(done) {
+  it('should detect a "InvertedHammer" pattern', function (done) {
     //  |
     //  |
     //  |
@@ -40,7 +40,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "LongUpperShadow" pattern', function(done) {
+  it('should detect a "LongUpperShadow" pattern', function (done) {
     //  |
     //  |
     //  |
@@ -62,7 +62,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "LongLowerShadow" pattern', function(done) {
+  it('should detect a "LongLowerShadow" pattern', function (done) {
     //  |
     // ###
     // ###
@@ -77,7 +77,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "Marubozu" pattern', function(done) {
+  it('should detect a "Marubozu" pattern', function (done) {
     // ###  OOO
     // ###  O O
     // ###  OOO
@@ -91,7 +91,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "SpinningTop" pattern', function(done) {
+  it('should detect a "SpinningTop" pattern', function (done) {
     //  |    |
     //  |    |
     //  |    |
@@ -110,7 +110,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "Doji" pattern', function(done) {
+  it('should detect a "Doji" pattern', function (done) {
     //  |    |    |
     // -+-  ###  OOO
     //  |    |    |
@@ -127,7 +127,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "LongLeggedDoji" pattern', function(done) {
+  it('should detect a "LongLeggedDoji" pattern', function (done) {
     //  |    |    |
     //  |    |    |
     //  |    |    |
@@ -148,7 +148,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "DragonflyDoji" pattern', function(done) {
+  it('should detect a "DragonflyDoji" pattern', function (done) {
     // -+-  ###  OOO
     //  |    |    |
     //  |    |    |
@@ -166,7 +166,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "GravestoneDoji" pattern', function(done) {
+  it('should detect a "GravestoneDoji" pattern', function (done) {
     //  |    |    |
     //  |    |    |
     //  |    |    |
@@ -185,7 +185,7 @@ describe('indicators/CandlesPatterns', function() {
 
 // -------------------------- Combine candles --------------------------
 
-  it('should detect a "PiercingLine" pattern', function(done) {
+  it('should detect a "PiercingLine" pattern', function (done) {
     //    |
     //   ###  |
     //   ### OOO
@@ -200,7 +200,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "DarkCloudCover" pattern', function(done) {
+  it('should detect a "DarkCloudCover" pattern', function (done) {
     //        |
     //    |  ###
     //   OOO ###
@@ -215,7 +215,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "Hammer" pattern', function(done) {
+  it('should detect a "Hammer" pattern', function (done) {
     // |
     //###  |
     //### ###  |
@@ -243,7 +243,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "HangingMan" pattern', function(done) {
+  it('should detect a "HangingMan" pattern', function (done) {
     //          |   ###   OOO
     //      |  OOO  ###   OOO
     //  |  OOO OOO   |     |
@@ -266,7 +266,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "HaramiDown" pattern', function(done) {
+  it('should detect a "HaramiDown" pattern', function (done) {
     //       |
     //  |   ###
     // OOO  ###
@@ -282,7 +282,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "HaramiUp" pattern', function(done) {
+  it('should detect a "HaramiUp" pattern', function (done) {
     //       |
     //  |   OOO
     // ###  OOO
@@ -298,7 +298,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "EveningStar" pattern', function(done) {
+  it('should detect a "EveningStar" pattern', function (done) {
     //       |      |
     //      OOO    ###
     //      OOO or ###
@@ -326,7 +326,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "MorningStar" pattern', function(done) {
+  it('should detect a "MorningStar" pattern', function (done) {
     //  |               |
     // ###             OOO
     // ###             OOO
@@ -359,4 +359,86 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
+  //------------------
+  it('should use the "max" scale strategy', function (done) {
+    var maxIndicator = new candlePattern({
+      scaleMaxSize: 50,       // Scale based of the 'scaleMaxSize' previous candles
+      strategy:'max',     // 'max', 'average', 'median' or 'fixed'
+      dojiLimit:4/100,        // Doji is limited to 4% of the current scale
+      shortLimit:15/100,      // Short body is limited to 15% of the current scale
+      longLimit:20/100,       // Long body must be bigger of 20% of the current scale
+      sameShadowLimit:4/100,  // Tolerance of 4% when compare equality of two shadows
+      persistanceBeforHammerOrHangingMan:2, // Number of candle in the same direction before an Hammer or HangingMan
+    });
+    maxIndicator.update({open: 10, close: 200, high: 200, low: 10});
+    assert.equal(maxIndicator.scale,190);
+    maxIndicator.update({open: 20, close: 230, high: 230, low: 20});
+    assert.equal(maxIndicator.scale,210);
+    maxIndicator.update({open: 30, close: 250, high: 250, low: 20});
+    assert.equal(maxIndicator.scale,230);
+    done();
+  });
+
+  it('should use the "average" scale strategy', function (done) {
+    var maxIndicator = new candlePattern({
+      scaleMaxSize: 50,       // Scale based of the 'scaleMaxSize' previous candles
+      strategy:'average',     // 'max', 'average', 'median' or 'fixed'
+      dojiLimit:4/100,        // Doji is limited to 4% of the current scale
+      shortLimit:15/100,      // Short body is limited to 15% of the current scale
+      longLimit:20/100,       // Long body must be bigger of 20% of the current scale
+      sameShadowLimit:4/100,  // Tolerance of 4% when compare equality of two shadows
+      persistanceBeforHammerOrHangingMan:2, // Number of candle in the same direction before an Hammer or HangingMan
+    });
+    maxIndicator.update({open: 10, close: 200, high: 200, low: 10});
+    assert.equal(maxIndicator.scale,190);
+    maxIndicator.update({open: 20, close: 230, high: 230, low: 20});
+    assert.equal(maxIndicator.scale,200);
+    maxIndicator.update({open: 30, close: 250, high: 250, low: 20});
+    assert.equal(maxIndicator.scale,210);
+    done();
+  });
+
+  it('should use the "median" scale strategy', function (done) {
+    var maxIndicator = new candlePattern({
+      scaleMaxSize: 50,       // Scale based of the 'scaleMaxSize' previous candles
+      strategy:'median',     // 'max', 'average', 'median' or 'fixed'
+      dojiLimit:4/100,        // Doji is limited to 4% of the current scale
+      shortLimit:15/100,      // Short body is limited to 15% of the current scale
+      longLimit:20/100,       // Long body must be bigger of 20% of the current scale
+      sameShadowLimit:4/100,  // Tolerance of 4% when compare equality of two shadows
+      persistanceBeforHammerOrHangingMan:2, // Number of candle in the same direction before an Hammer or HangingMan
+    });
+    maxIndicator.update({open: 10, close: 200, high: 200, low: 10});
+    assert.equal(maxIndicator.scale,190);
+    maxIndicator.update({open: 20, close: 230, high: 230, low: 20});
+    assert.equal(maxIndicator.scale,210);
+    maxIndicator.update({open: 30, close: 250, high: 250, low: 20});
+    assert.equal(maxIndicator.scale,210);
+    done();
+  });
+
+  it('should use the "fixed" scale strategy', function (done) {
+    var maxIndicator = new candlePattern({
+      scaleMaxSize: 50,
+      strategy:'fixed',
+      dojiLimit:4,
+      shortLimit:15,
+      longLimit:20,
+      sameShadowLimit:4,
+      persistanceBeforHammerOrHangingMan:2,
+    });
+    assert.equal(true,  maxIndicator.isDoji(maxIndicator.buildWithPattern({open: 10, close: 14, high: 15, low: 9})));
+    assert.equal(false, maxIndicator.isDoji(maxIndicator.buildWithPattern({open: 10, close: 15, high: 15, low: 9})));
+    assert.equal(true,  maxIndicator.isShort(maxIndicator.buildWithPattern({open: 10, close: 25, high: 15, low: 9})));
+    assert.equal(false, maxIndicator.isShort(maxIndicator.buildWithPattern({open: 10, close: 26, high: 15, low: 9})));
+    assert.equal(true,  maxIndicator.isLong(maxIndicator.buildWithPattern({open: 10, close: 30, high: 20, low: 9})));
+    assert.equal(false, maxIndicator.isLong(maxIndicator.buildWithPattern({open: 10, close: 29, high: 19, low: 9})));
+    assert.equal(true,  maxIndicator.isShortUpper(maxIndicator.buildWithPattern({open: 10, close: 10, high: 25, low: 9})));
+    assert.equal(false, maxIndicator.isShortUpper(maxIndicator.buildWithPattern({open: 10, close: 10, high: 26, low: 9})));
+    assert.equal(true,  maxIndicator.isLongUpper(maxIndicator.buildWithPattern({open: 10, close: 10, high: 30, low: 9})));
+    assert.equal(false, maxIndicator.isLongUpper(maxIndicator.buildWithPattern({open: 10, close: 10, high: 29, low: 9})));
+    assert.equal(true,  maxIndicator.isLongLower(maxIndicator.buildWithPattern({open: 50, close: 50, high: 51, low: 30})));
+    assert.equal(false, maxIndicator.isLongLower(maxIndicator.buildWithPattern({open: 50, close: 50, high: 51, low: 31})));
+    done();
+  });
 });

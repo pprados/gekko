@@ -60,6 +60,20 @@ Indicator.prototype.resetScale=function() {
   this.scale=0;
 }
 
+Indicator.prototype.buildWithPattern = function(candle) {
+  return {
+    candle:candle,
+    pattern: {
+      direction: candle.close-candle.open, // >0 up, <0 down, 0 unknown
+      realBody: Math.abs(candle.close-candle.open), // Taille du corps
+      upperShadow: Math.abs(candle.high-Math.max(candle.open,candle.close)),
+      lowerShadow: Math.abs(Math.min(candle.open,candle.close)-candle.low),
+      body:candle.high-candle.low,
+      type:undefined,
+      average:(candle.high+candle.close+candle.open+candle.close)/4,
+    },
+  }
+}
 Indicator.prototype.update = function(candle) {
 
   // We need sufficient history to get the right result.
@@ -67,43 +81,29 @@ Indicator.prototype.update = function(candle) {
     "Bad low value in candle");
   assert.equal(true,(candle.high >= candle.open) && (candle.high >= candle.close) && (candle.high >= candle.low),
     "bad high value in candle");
-  var pattern= {
-    direction: candle.close-candle.open, // >0 up, <0 down, 0 unknown
-    realBody: Math.abs(candle.close-candle.open), // Taille du corps
-    upperShadow: Math.abs(candle.high-Math.max(candle.open,candle.close)),
-    lowerShadow: Math.abs(Math.min(candle.open,candle.close)-candle.low),
-    body:candle.high-candle.low,
-    type:undefined,
-    average:(candle.high+candle.close+candle.open+candle.close)/4,
-  }
+  var withPattern=this.buildWithPattern(candle);
 
   // Manage history of patterns
   if (this.size < this.maxSize) {
-    this.hist[this.size] = {
-      candle: candle,
-      pattern: pattern,
-    }
+    this.hist[this.size] = withPattern;
     this.size++;
   } else {
     for (var i = 0; i < this.maxSize-1; i++) {
       this.hist[i] = this.hist[i+1];
     }
-    this.hist[this.maxSize-1] = {
-      candle: candle,
-      pattern: pattern,
-    }
+    this.hist[this.maxSize-1] = withPattern;
   }
 
   // Manage Scale
-  if (pattern.body > 0) {
+  if (withPattern.pattern.body > 0) {
     if (this.scaleSize < this.settings.scaleMaxSize) {
-      this.scales[this.scaleSize] = pattern.body;
+      this.scales[this.scaleSize] = withPattern.pattern.body;
       this.scaleSize++;
     } else {
       for (var i = 0; i < this.settings.scaleMaxSize-1; i++) {
         this.scales[i] = this.scales[i+1];
       }
-      this.scales[this.settings.scaleMaxSize-1] = pattern.body;
+      this.scales[this.settings.scaleMaxSize-1] = withPattern.pattern.body;
     }
     // Median
     if (this.settings.strategy === 'median')
@@ -124,16 +124,20 @@ Indicator.prototype.update = function(candle) {
       }
       this.scale=total/this.scales.length;
     }
+    else if (this.settings.strategy === 'fixed')
+    {
+      this.scale=0;
+    }
     if (debug && !(++nbdebug % pickLog)) {
-      assert(this.scale != 0);
+      if (this.settings.strategy !== 'fixed') assert.notEqual(this.scale,0);
       var dump=
         "**************"+
         "scale="+this.scale+
         " isDojo="+this.isDoji(this.hist[this.size-1])+
         " isShort="+this.isShort(this.hist[this.size-1])+
         " isLong="+this.isLong(this.hist[this.size-1]);
-      console.log(dump);
-      //log.info(dump);
+      //console.log(dump);
+      log.info(dump);
     }
   }
 
@@ -142,26 +146,33 @@ Indicator.prototype.update = function(candle) {
 }
 
 Indicator.prototype.isDoji=function(x) {
+  if (this.settings.strategy === 'fixed') return (x.pattern.realBody <= this.settings.dojiLimit);
   return (x.pattern.realBody < this.scale * this.settings.dojiLimit);
 }
 Indicator.prototype.isShort=function(x) {
+  if (this.settings.strategy === 'fixed') return (!this.isDoji(x) && (x.pattern.realBody <= this.settings.shortLimit));
   return (!this.isDoji(x) && (x.pattern.realBody < this.scale * this.settings.shortLimit));
 }
 
 Indicator.prototype.isLong=function(x) {
+  if (this.settings.strategy === 'fixed') return (x.pattern.realBody >= this.settings.longLimit);
   return (x.pattern.realBody > this.scale * this.settings.longLimit)
 }
 
 Indicator.prototype.isShortUpper=function(x) {
+  if (this.settings.strategy === 'fixed') return (x.pattern.upperShadow <= this.settings.shortLimit);
   return (x.pattern.upperShadow < this.scale * this.settings.shortLimit)
 }
 Indicator.prototype.isLongUpper=function(x) {
+  if (this.settings.strategy === 'fixed') return (x.pattern.upperShadow >= this.settings.longLimit);
   return (x.pattern.upperShadow > this.scale * this.settings.longLimit)
 }
 Indicator.prototype.isShortLower=function(x) {
+  if (this.settings.strategy === 'fixed') return (x.pattern.lowerShadow <= this.settings.shortLimit);
   return (x.pattern.lowerShadow < this.scale * this.settings.shortLimit)
 }
 Indicator.prototype.isLongLower=function(x) {
+  if (this.settings.strategy === 'fixed') return (x.pattern.lowerShadow >= this.settings.longLimit);
   return (x.pattern.lowerShadow > this.scale * this.settings.longLimit)
 }
 
