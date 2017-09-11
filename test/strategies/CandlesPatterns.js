@@ -1,18 +1,8 @@
 const assert = require('assert');
 const mocha = require('mocha');
 const config = require('../../core/util.js').getConfig();
-config.CandlesPatterns={
-  scaleMaxSize: 50,       // Scale based of the 'scaleMaxSize' previous candles
-  strategy:'average',     // 'max', 'average', 'median' or 'fixed'
-  dojiLimit:4/100,        // Doji is limited to 4% of the current scale
-  shortLimit:15/100,      // Short body is limited to 15% of the current scale
-  longLimit:20/100,       // Long body must be bigger of 20% of the current scale
-  sameShadowLimit:4/100,  // Tolerance of 4% when compare equality of two shadows
-  persistanceBeforHammerOrHangingMan:2, // Number of candle in the same direction before an Hammer or HangingMan
-};
 config.debug = true;
 const MockGekko=require("./mockGekko.js");
-const mock=MockGekko(require('../../strategies/CandlesPatterns.js'));
 
 const origin_candles=[
   {open: 120, close: 110, high: 120, low: 50},
@@ -86,7 +76,7 @@ const origin_candles=[
   {open: 120, close: 160, high: 160, low: 120}
 ];
 
-var consttrades = [
+var expectedTrades = [
   { price: 110,amount: -1,date: '2015-01-01 01:00:00',profit: 110},
   { price: 100,amount: 1,date: '2015-01-01 05:00:00',profit: 0},
   { price: 120,amount: -1,date: '2015-01-01 06:00:00',profit: 20},
@@ -122,19 +112,93 @@ var consttrades = [
 
 describe('strategies/CandlesPatterns', function() {
 
-  const start = moment("2015-01-01");
-  const candles = [];
-
-  for (var i = 0; i < origin_candles.length; ++i) {
-    origin_candles[i].start=start.format('YYYY-MM-DD HH:mm:ss');
-    candles.push(origin_candles[i]);
-    start.add(1, "hour")
-  }
   it('should produce trades without error', function(done) {
-    const tradeHistory = mock.inject(candles).getTradeHistory();
-    assert(tradeHistory.length > 0);
-    //console.dir(tradeHistory);
-    assert.deepEqual(tradeHistory, consttrades);
+    config.CandlesPatterns={
+      scaleMaxSize: 50,       // Scale based of the 'scaleMaxSize' previous candles
+      strategy:'average',     // 'max', 'average', 'median' or 'fixed'
+      persistence: 0,
+      dojiLimit:4/100,        // Doji is limited to 4% of the current scale
+      shortLimit:15/100,      // Short body is limited to 15% of the current scale
+      longLimit:20/100,       // Long body must be bigger of 20% of the current scale
+      sameShadowLimit:4/100,  // Tolerance of 4% when compare equality of two shadows
+      persistanceBeforHammerOrHangingMan:2, // Number of candle in the same direction before an Hammer or HangingMan
+    };
+    const mock=MockGekko(require('../../strategies/CandlesPatterns.js'));
+    const start = moment("2015-01-01");
+    const candles = [];
+
+    for (var i = 0; i < origin_candles.length; ++i) {
+      origin_candles[i].start=start.format('YYYY-MM-DD HH:mm:ss');
+      candles.push(origin_candles[i]);
+      start.add(1, "hour")
+    }
+    const tradesHistory = mock.inject(candles).getTradeHistory();
+    assert(tradesHistory.length > 0);
+    //console.dir(tradesHistory);
+    assert.deepEqual(tradesHistory, expectedTrades);
+    done();
+  });
+
+  it('should manage the "persistence" of trend when confirmed',function(done) {
+    config.CandlesPatterns={
+      scaleMaxSize: 50,       // Scale based of the 'scaleMaxSize' previous candles
+      strategy:'average',     // 'max', 'average', 'median' or 'fixed'
+      persistence: 1,
+      dojiLimit:4/100,        // Doji is limited to 4% of the current scale
+      shortLimit:15/100,      // Short body is limited to 15% of the current scale
+      longLimit:20/100,       // Long body must be bigger of 20% of the current scale
+      sameShadowLimit:4/100,  // Tolerance of 4% when compare equality of two shadows
+      persistanceBeforHammerOrHangingMan:2, // Number of candle in the same direction before an Hammer or HangingMan
+    };
+    const mock=MockGekko(require('../../strategies/CandlesPatterns.js'));
+    const start = moment("2015-01-01");
+    const candles = [];
+    const test_candles=[
+      {open: 120, close: 110, high: 120, low: 50},
+      {open: 100, close: 110, high: 160, low: 100},
+      ];
+    for (var i = 0; i < test_candles.length; ++i) {
+      test_candles[i].start=start.format('YYYY-MM-DD HH:mm:ss');
+      candles.push(test_candles[i]);
+      start.add(1, "hour")
+    }
+    var tradesHistory = mock.inject(test_candles).getTradeHistory();
+    assert(tradesHistory.length == 0);
+    test_candles.push({open: 100, close: 110, high: 160, low: 100, start:start.format('YYYY-MM-DD HH:mm:ss')});
+    tradesHistory = mock.inject(test_candles).getTradeHistory();
+    var expectedTrades=[ { price: 110, amount: -1, date: '2015-01-01 02:00:00', profit: 110 } ];
+    assert.deepEqual(tradesHistory, expectedTrades);
+    done();
+  });
+
+  it('should manage the "persistence" of trend when not confirmed',function(done) {
+    config.CandlesPatterns={
+      scaleMaxSize: 50,       // Scale based of the 'scaleMaxSize' previous candles
+      strategy:'average',     // 'max', 'average', 'median' or 'fixed'
+      persistence: 1,
+      dojiLimit:4/100,        // Doji is limited to 4% of the current scale
+      shortLimit:15/100,      // Short body is limited to 15% of the current scale
+      longLimit:20/100,       // Long body must be bigger of 20% of the current scale
+      sameShadowLimit:4/100,  // Tolerance of 4% when compare equality of two shadows
+      persistanceBeforHammerOrHangingMan:2, // Number of candle in the same direction before an Hammer or HangingMan
+    };
+    const mock=MockGekko(require('../../strategies/CandlesPatterns.js'));
+    const start = moment("2015-01-01");
+    const candles = [];
+    const test_candles=[
+      {open: 120, close: 110, high: 120, low: 50},
+      {open: 100, close: 110, high: 160, low: 100},
+    ];
+    for (var i = 0; i < test_candles.length; ++i) {
+      test_candles[i].start=start.format('YYYY-MM-DD HH:mm:ss');
+      candles.push(test_candles[i]);
+      start.add(1, "hour")
+    }
+    var tradesHistory = mock.inject(test_candles).getTradeHistory();
+    assert(tradesHistory.length == 0);
+    test_candles.push({open: 110, close: 100, high: 160, low: 100, start:start.format('YYYY-MM-DD HH:mm:ss')});
+    tradesHistory = mock.inject(test_candles).getTradeHistory();
+    assert.deepEqual(tradesHistory, []);
     done();
   });
 });
