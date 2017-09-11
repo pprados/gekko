@@ -93,7 +93,12 @@ Indicator.prototype.buildWithPattern = function(candle) {
       average:(candle.high+candle.close+candle.open+candle.close)/4,
     },
   }
-}
+};
+
+Indicator.prototype.last=function() {
+  return this.hist[this.size-1];
+};
+
 Indicator.prototype.update = function(candle) {
 
   // We need sufficient history to get the right result.

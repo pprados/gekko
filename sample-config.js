@@ -46,16 +46,14 @@ config.tradingAdvisor = {
 config.CandlesPatterns={
   scaleMaxSize: 50,       // Scale based of the 'scaleMaxSize' previous candles
   strategy:'average',     // 'max', 'average', 'median' or 'fixed'
-<<<<<<< 94d3b026493367baea8641e20472e25383aa2dbe
   persistence:0,          // After a pattern and trend identified, confirm the trend
   dojiLimit:4/100,        // Doji is limited to 4% of the current scale
   shortLimit:15/100,      // Short body is limited to 15% of the current scale
   longLimit:50/100,       // Long body must be bigger of 50% of the current scale
-=======
+  persistence:0,          // After a pattern and trend identified, confirm the trend
   dojiLimit:4/100,        // Doji is limited to 4% of the current scale
   shortLimit:15/100,      // Short body is limited to 15% of the current scale
-  longLimit:20/100,       // Long body must be bigger of 20% of the current scale
->>>>>>> merge
+  longLimit:50/100,       // Long body must be bigger of 50% of the current scale
   sameShadowLimit:4/100,  // Tolerance of 4% when compare equality of two shadows
   persistanceBeforHammerOrHangingMan:2, // Number of candle in the same direction before an Hammer or HangingMan
 };

@@ -4,25 +4,17 @@ scaleMaxSize = 50
 # 'max', 'average', 'median' or 'fixed'
 strategy ='average'
 
-<<<<<<< 94d3b026493367baea8641e20472e25383aa2dbe
 # After a pattern and trend identified, confirm the trend
 persistence = 0
 
-=======
->>>>>>> merge
 # Doji is limited to 4% of the current scale
 dojiLimit = 0.04
 
 # Short body is limited to 15% of the current scale
 shortLimit = 0.15
 
-<<<<<<< 94d3b026493367baea8641e20472e25383aa2dbe
 # Long body must be bigger of 50% of the current scale
 longLimit = 0.50
-=======
-# Long body must be bigger of 20% of the current scale
-longLimit = 0.20
->>>>>>> merge
 
 # Tolerance of 4% when compare equality of two shadows
 sameShadowLimit = 0.04
