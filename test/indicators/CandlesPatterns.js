@@ -35,8 +35,11 @@ describe('indicators/CandlesPatterns', function() {
     //  |
     // ###
     // ###
+    indicator.update({open: 180, close: 120, high: 180, low: 100})
+    indicator.update({open: 130, close: 110, high: 160, low: 100})
     indicator.update({open: 100, close: 110, high: 160, low: 100})
     indicator.name.should.equal('InvertedHammer');
+    assert(indicator.result > 0);
     done();
   });
 

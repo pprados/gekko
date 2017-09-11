@@ -35,7 +35,7 @@
 
 var log = require('../../core/log');
 var assert = require('assert');
-const debug=true;
+const debug=false;
 var nbdebug=0;
 var pickLog=1;
 
@@ -48,18 +48,18 @@ var Indicator = function(settings) {
   this.resetHistory();
   for (var i = 0; i < this.maxSize; i++)
       this.hist.push(0.0);
-}
+};
 
 Indicator.prototype.resetHistory=function() {
   this.hist=[];
   this.size=0;
   this.resetScale();
-}
+};
 Indicator.prototype.resetScale=function() {
   this.scales=[];
   this.scaleSize=0;
   this.scale=0;
-}
+};
 
 Indicator.prototype.buildWithPattern = function(candle) {
   return {
@@ -74,7 +74,12 @@ Indicator.prototype.buildWithPattern = function(candle) {
       average:(candle.high+candle.close+candle.open+candle.close)/4,
     },
   }
-}
+};
+
+Indicator.prototype.last=function() {
+  return this.hist[this.size-1];
+};
+
 Indicator.prototype.update = function(candle) {
 
   // We need sufficient history to get the right result.
@@ -144,7 +149,7 @@ Indicator.prototype.update = function(candle) {
 
   this.analyseOneCandle(this.hist[this.size-1]);
   this.analyseMultipleCandles()
-}
+};
 
 Indicator.prototype.isDoji=function(x) {
   if (this.settings.strategy === 'fixed') return (x.pattern.realBody <= this.settings.dojiLimit);
@@ -153,29 +158,29 @@ Indicator.prototype.isDoji=function(x) {
 Indicator.prototype.isShort=function(x) {
   if (this.settings.strategy === 'fixed') return (!this.isDoji(x) && (x.pattern.realBody <= this.settings.shortLimit));
   return (!this.isDoji(x) && (x.pattern.realBody <= this.scale * this.settings.shortLimit));
-}
+};
 
 Indicator.prototype.isLong=function(x) {
   if (this.settings.strategy === 'fixed') return (x.pattern.realBody >= this.settings.longLimit);
   return (x.pattern.realBody >= this.scale * this.settings.longLimit)
-}
+};
 
 Indicator.prototype.isShortUpper=function(x) {
   if (this.settings.strategy === 'fixed') return (x.pattern.upperShadow <= this.settings.shortLimit);
   return (x.pattern.upperShadow <= this.scale * this.settings.shortLimit)
-}
+};
 Indicator.prototype.isLongUpper=function(x) {
   if (this.settings.strategy === 'fixed') return (x.pattern.upperShadow >= this.settings.longLimit);
   return (x.pattern.upperShadow >= this.scale * this.settings.longLimit)
-}
+};
 Indicator.prototype.isShortLower=function(x) {
   if (this.settings.strategy === 'fixed') return (x.pattern.lowerShadow <= this.settings.shortLimit);
   return (x.pattern.lowerShadow <= this.scale * this.settings.shortLimit)
-}
+};
 Indicator.prototype.isLongLower=function(x) {
   if (this.settings.strategy === 'fixed') return (x.pattern.lowerShadow >= this.settings.longLimit);
   return (x.pattern.lowerShadow >= this.scale * this.settings.longLimit)
-}
+};
 
 function near(a,b,percent) {
   return (Math.abs(a-b) < (a*percent));
@@ -537,6 +542,20 @@ Indicator.prototype.analyseMultipleCandles=function() {
       // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/HangingMan.html
       curr.name = this.name = 'HangingMan';
       this.result = -1; // Down
+    }
+    if (
+      (this.result != -1) &&
+      (curr.name === 'InvertedHammer') &&
+      this.minDirection(-1, this.settings.persistanceBeforHammerOrHangingMan, this.size - 2)) {
+      //  |
+      // ###  |
+      // ### ###  |    |     |
+      // ### ### ###   |  or |
+      //  |  ### ###   |     |
+      //      |  ###  ###   OOO
+      //          |   ###   OOO
+      // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/InvertedHammer.html
+      this.result = 1; // Up
     }
   }
 };
