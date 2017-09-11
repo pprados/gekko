@@ -133,7 +133,7 @@ describe('strategies/CandlesPatterns', function() {
   it('should produce trades without error', function(done) {
     const tradeHistory = mock.inject(candles).getTradeHistory();
     assert(tradeHistory.length > 0);
-    console.dir(tradeHistory);
+    //console.dir(tradeHistory);
     assert.deepEqual(tradeHistory, consttrades);
     done();
   });
