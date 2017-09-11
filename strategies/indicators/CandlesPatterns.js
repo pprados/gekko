@@ -30,6 +30,7 @@
  *
  * @see https://www.abcbourse.com/apprendre/10_chgt_tendance_1.html (french)
  * @see http://stockcharts.com/school/doku.php?id=chart_school:chart_analysis:introduction_to_candlesticks
+ * @author Philippe Prados
  */
 
 var log = require('../../core/log');
@@ -147,33 +148,33 @@ Indicator.prototype.update = function(candle) {
 
 Indicator.prototype.isDoji=function(x) {
   if (this.settings.strategy === 'fixed') return (x.pattern.realBody <= this.settings.dojiLimit);
-  return (x.pattern.realBody < this.scale * this.settings.dojiLimit);
+  return (x.pattern.realBody <= this.scale * this.settings.dojiLimit);
 }
 Indicator.prototype.isShort=function(x) {
   if (this.settings.strategy === 'fixed') return (!this.isDoji(x) && (x.pattern.realBody <= this.settings.shortLimit));
-  return (!this.isDoji(x) && (x.pattern.realBody < this.scale * this.settings.shortLimit));
+  return (!this.isDoji(x) && (x.pattern.realBody <= this.scale * this.settings.shortLimit));
 }
 
 Indicator.prototype.isLong=function(x) {
   if (this.settings.strategy === 'fixed') return (x.pattern.realBody >= this.settings.longLimit);
-  return (x.pattern.realBody > this.scale * this.settings.longLimit)
+  return (x.pattern.realBody >= this.scale * this.settings.longLimit)
 }
 
 Indicator.prototype.isShortUpper=function(x) {
   if (this.settings.strategy === 'fixed') return (x.pattern.upperShadow <= this.settings.shortLimit);
-  return (x.pattern.upperShadow < this.scale * this.settings.shortLimit)
+  return (x.pattern.upperShadow <= this.scale * this.settings.shortLimit)
 }
 Indicator.prototype.isLongUpper=function(x) {
   if (this.settings.strategy === 'fixed') return (x.pattern.upperShadow >= this.settings.longLimit);
-  return (x.pattern.upperShadow > this.scale * this.settings.longLimit)
+  return (x.pattern.upperShadow >= this.scale * this.settings.longLimit)
 }
 Indicator.prototype.isShortLower=function(x) {
   if (this.settings.strategy === 'fixed') return (x.pattern.lowerShadow <= this.settings.shortLimit);
-  return (x.pattern.lowerShadow < this.scale * this.settings.shortLimit)
+  return (x.pattern.lowerShadow <= this.scale * this.settings.shortLimit)
 }
 Indicator.prototype.isLongLower=function(x) {
   if (this.settings.strategy === 'fixed') return (x.pattern.lowerShadow >= this.settings.longLimit);
-  return (x.pattern.lowerShadow > this.scale * this.settings.longLimit)
+  return (x.pattern.lowerShadow >= this.scale * this.settings.longLimit)
 }
 
 function near(a,b,percent) {
@@ -203,7 +204,7 @@ Indicator.prototype.minDirection= function(dir,min,idx) {
 };
 
 /*
- * Identify one candle
+ * Identify pattern with one candle
  */
 Indicator.prototype.analyseOneCandle = function(last) {
   this.name='';
@@ -246,7 +247,6 @@ Indicator.prototype.analyseOneCandle = function(last) {
       //      OOO    ###
       //      OOO or ###
       //       |      |
-      //                      } gap
       // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/EveningStar.html
       last.name=this.name='Star';
     }
@@ -268,16 +268,17 @@ Indicator.prototype.analyseOneCandle = function(last) {
       last.name=this.name="GravestoneDoji";
       this.result=last.pattern.direction;
     } else {
-      //  |
-      //  |
-      //  |
-      //  |
-      // ###
-      // ###
-      // ###
-      //  |
+      //  |      |
+      //  |      |
+      //  |      |
+      //  |      |
+      //  |      |
+      // ###    OOO
+      // ###    OOO
+      // ### or OOO
+      //  |      |
       last.name=this.name="LongUpperShadow";
-      this.result=last.pattern.direction;
+      this.result=last.pattern.direction; //FIXME
     }
   } else if (
     (last.pattern.lowerShadow >= 2 * last.pattern.realBody) &&
@@ -293,31 +294,30 @@ Indicator.prototype.analyseOneCandle = function(last) {
       //  |    |    |
       // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/Dragonfly%20Doji.html
       last.name=this.name = "DragonflyDoji";
-      this.result = last.pattern.direction;
+      this.result = last.pattern.direction; //FIXME
     } else {
-      //  |
-      // ###
-      // ###
-      // ###
-      //  |
-      //  |
-      //  |
-      //  |
+      //  |    |
+      // ###  OOO
+      // ###  OOO
+      // ###  OOO
+      //  |    |
+      //  |    |
+      //  |    |
+      //  |    |
       last.name=this.name="LongLowerShadow";
       this.result=last.pattern.direction;
     }
   } else if (
-    // ##
     (last.pattern.upperShadow == 0) &&
     (last.pattern.lowerShadow == 0)
   ) {
     // ###  OOO
-    // ###  O O
+    // ###  OOO
     // ###  OOO
     last.name=this.name="Marubozu";
     this.result=last.pattern.direction;
   } else if (
-    // ---#---
+    // Same size of lower and upper shadow
     near(last.pattern.lowerShadow,last.pattern.upperShadow,this.settings.sameShadowLimit)
   ) {
     // ---|---
@@ -331,7 +331,7 @@ Indicator.prototype.analyseOneCandle = function(last) {
       //  |    |    |
       // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/Doji.html
       last.name=this.name="LongLeggedDoji";
-      this.result=last.pattern.direction;
+      this.result=last.pattern.direction; // FIXME
     } else if (
       (last.pattern.upperShadow >= 2 * last.pattern.realBody) &&
       (last.pattern.lowerShadow >= 2 * last.pattern.realBody)
@@ -339,8 +339,10 @@ Indicator.prototype.analyseOneCandle = function(last) {
       //  |    |
       //  |    |
       //  |    |
+      //  |    |
       // ###  OOO
       // ###  OOO
+      //  |    |
       //  |    |
       //  |    |
       //  |    |
@@ -359,8 +361,10 @@ Indicator.prototype.analyseOneCandle = function(last) {
   }
 };
 
+// Identifiy patterns with multiple candles
 Indicator.prototype.analyseMultipleCandles=function() {
 
+  // Patterns with 2 candles
   if (this.size >= 2) {
     var prev=this.hist[this.size-2];
     var curr=this.hist[this.size-1];
@@ -442,20 +446,22 @@ Indicator.prototype.analyseMultipleCandles=function() {
       //   OOO  |
       //    |
       // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/DarkCloudCover.html
-      this.name = "DarkCloudCover"; // FIXME
+      this.name = "DarkCloudCover";
       this.result = -1; // Down
     }
   }
+
+  // Patterns with 3 candles
   if (this.size >= 3) {
     var prevprev=this.hist[this.size-3];
     var prev=this.hist[this.size-2];
     var curr=this.hist[this.size-1];
     if (
+      (curr.pattern.direction < 0) &&
+      this.isLong(curr) &&
       (prev.name === 'Star') &&
       (prevprev.pattern.direction > 0) &&
       this.isLong(prevprev) &&
-      (curr.pattern.direction < 0) &&
-      this.isLong(curr) &&
       (curr.candle.open < Math.min(prev.candle.open,prev.candle.close)) // Gap
     ) {
       //       |      |
@@ -467,17 +473,18 @@ Indicator.prototype.analyseMultipleCandles=function() {
       // OOO             ###
       // OOO             ###
       // OOO             ###
+      // OOO             ###
       //  |               |
       // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/EveningStar.html
       prev.name = this.name = 'EveningStar';
       this.result = -1; // Down
     }
     else if (
+      (curr.pattern.direction > 0) &&
+      this.isLong(curr) &&
       (prev.name === 'Star') &&
       (prevprev.pattern.direction < 0) &&
       this.isLong(prevprev) &&
-      (curr.pattern.direction > 0) &&
-      this.isLong(curr) &&
       (curr.candle.open > Math.min(prev.candle.open,prev.candle.close)) // Gap
     ) {
       //  |               |
@@ -492,7 +499,7 @@ Indicator.prototype.analyseMultipleCandles=function() {
       //       |      |
       // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/MorningStar.html
       prev.name = this.name = 'MorningStar';
-      this.result = 1;
+      this.result = 1; // Up
     }
   }
   // https://www.abcbourse.com/apprendre/11_lecon6_2.html
@@ -502,12 +509,16 @@ Indicator.prototype.analyseMultipleCandles=function() {
       (this.result != -1) &&
       (curr.name === 'Hammer') &&
       this.minDirection(-1, this.settings.persistanceBeforHammerOrHangingMan, this.size - 2)) {
-      // ###
-      // ###
       //  |
-      //  |
-      //  |
-      //  |
+      // ###  |
+      // ### ###  |
+      // ### ### ###
+      //  |  ### ###
+      //      |  ###  ###   OOO
+      //          |   ###   OOO
+      //               |     |
+      //               |  or |
+      //               |     |
       // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/Hammer.html
       curr.name = this.name = 'Hammer';
       this.result = 1; // Up

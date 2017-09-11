@@ -5,7 +5,7 @@ const settings={
   strategy:'median',     // 'max', 'average', 'median' or 'fixed'
   dojiLimit:4/100,        // Doji is limited to 4% of the current scale
   shortLimit:15/100,      // Short body is limited to 15% of the current scale
-  longLimit:20/100,       // Long body must be bigger of 20% of the current scale
+  longLimit:50/100,       // Long body must be bigger of 20% of the current scale FIXME
   sameShadowLimit:4/100,  // Tolerance of 4% when compare equality of two shadows
   persistanceBeforHammerOrHangingMan:2, // Number of candle in the same direction before an Hammer or HangingMan
 };
@@ -16,7 +16,7 @@ const candlePattern=require("../../strategies/indicators/CandlesPatterns.js");
 describe('indicators/CandlesPatterns', function() {
 
   var indicator = new candlePattern(settings);
-  it('should detect a "Hammer" pattern', function (done) {
+  it('should detect an "Hammer" pattern', function (done) {
     // ###
     // ###
     //  |
@@ -28,7 +28,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "InvertedHammer" pattern', function (done) {
+  it('should detect an "InvertedHammer" pattern', function (done) {
     //  |
     //  |
     //  |
@@ -215,7 +215,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "Hammer" pattern', function (done) {
+  it('should detect an "Hammer" pattern', function (done) {
     // |
     //###  |
     //### ###  |
@@ -243,7 +243,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "HangingMan" pattern', function (done) {
+  it('should detect an "HangingMan" pattern', function (done) {
     //          |   ###   OOO
     //      |  OOO  ###   OOO
     //  |  OOO OOO   |     |
@@ -266,7 +266,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "HaramiDown" pattern', function (done) {
+  it('should detect an "HaramiDown" pattern', function (done) {
     //       |
     //  |   ###
     // OOO  ###
@@ -282,7 +282,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "HaramiUp" pattern', function (done) {
+  it('should detect an "HaramiUp" pattern', function (done) {
     //       |
     //  |   OOO
     // ###  OOO
@@ -298,7 +298,7 @@ describe('indicators/CandlesPatterns', function() {
     done();
   });
 
-  it('should detect a "EveningStar" pattern', function (done) {
+  it('should detect an "EveningStar" pattern', function (done) {
     //       |      |
     //      OOO    ###
     //      OOO or ###
