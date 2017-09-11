@@ -266,7 +266,6 @@ Indicator.prototype.analyseOneCandle = function(last) {
       //      OOO    ###
       //      OOO or ###
       //       |      |
-      //                      } gap
       // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/EveningStar.html
       last.name=this.name='Star';
     }
