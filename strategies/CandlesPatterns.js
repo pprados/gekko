@@ -1,22 +1,22 @@
-// Detect specific patterns.
-//
-// http://www.onlinetradingconcepts.com/TechnicalAnalysis
+/**
+ * Detect specific patterns.
+ *
+ * @author Philippe Prados
+ * @see http://www.onlinetradingconcepts.com/TechnicalAnalysis
+ */
 
 var log = require('../core/log');
 var config = require('../core/util.js').getConfig();
 
-// Let's create our own strat
 var strat = {};
 
 // Prepare everything our method needs
 strat.init = function() {
   this.requiredHistory = 0;
-  // define the indicators we need
   this.addIndicator('patternsCandles', 'CandlesPatterns', config.CandlesPatterns);
   this.direction=0;
 }
 
-// What happens on every new candle?
 strat.update = function(candle) {
 }
 
