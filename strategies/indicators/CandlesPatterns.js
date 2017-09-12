@@ -30,7 +30,10 @@
  *
  * @see https://www.abcbourse.com/apprendre/10_chgt_tendance_1.html (french)
  * @see http://stockcharts.com/school/doku.php?id=chart_school:chart_analysis:introduction_to_candlesticks
+<<<<<<< 94d3b026493367baea8641e20472e25383aa2dbe
  * @author Philippe Prados
+=======
+>>>>>>> merge
  */
 
 var log = require('../../core/log');
@@ -252,6 +255,7 @@ Indicator.prototype.analyseOneCandle = function(last) {
       //      OOO    ###
       //      OOO or ###
       //       |      |
+      //                      } gap
       // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/EveningStar.html
       last.name=this.name='Star';
     }

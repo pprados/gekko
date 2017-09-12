@@ -18,10 +18,10 @@ strat.init = function() {
   this.persistence=config.CandlesPatterns.persistence;
   this.lastPrediction=0;
   this.confirm=0;
-}
+};
 
 strat.update = function(candle) {
-}
+};
 
 // For debugging purposes.
 strat.log = function() {
@@ -29,7 +29,7 @@ strat.log = function() {
   if (patternsCandles.result != 0) {
     log.debug(((patternsCandles.result < 0) ? "Down":"Up")+" pattern="+patternsCandles.name);
   }
-}
+};
 
 strat.check = function() {
   var patternsCandles=this.indicators.patternsCandles;
