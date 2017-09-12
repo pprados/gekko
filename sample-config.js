@@ -33,7 +33,7 @@ config.watch = {
 config.tradingAdvisor = {
   enabled: true,
   method: 'MACD',
-  candleSize: 60, // FIXME: 1
+  candleSize: 1,
   historySize: 3,
   adapter: 'sqlite',
   talib: {
@@ -435,8 +435,6 @@ config.importer = {
     from: "2016-01-01 00:00:00"
   }
 }
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // set this to true if you understand that Gekko will
 // invest according to how you configured the indicators.
