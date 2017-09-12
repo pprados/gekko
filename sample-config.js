@@ -448,6 +448,76 @@ config.importer = {
   }
 }
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//                       CONFIGURING LABS
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// To use the labs, indicate all the variables to change for each launch
+// with a 'for' loop design.
+// For each variable, add an object in patchs with
+// - 'path' with the name of the variable (in config)
+// - 'loop' with 3 simple pattern
+//    [0] : to initialise the parameter (with '0', use to execute '{} = 0')
+//    [1] : to check the end of the loop (with '< 3' use to execute '{} < 3'
+//    [2] : to increment the parameter (with '+ 1' use to execute '{} = {} + 1'
+// - or 'exloop' with extended pattern like
+// {
+//    path:"backtest.daterange",
+//    exloop:[
+//       '// init',
+//       'moment(config.{}.to).isBefore("2017-03-07")',
+//       'slideWindow(config.{},1, "day")',
+//       '// const x=require(...)
+//    ],
+// }
+//
+// All the results are saved in 'file' with CSV format.
+// To start, use 'node labgekko --backtest --config ...' in place of 'node gekko --backtest --config ...'
+config.lab={
+  enabled:true,
+  file:"labs/"+config.tradingAdvisor.method+"-"+config.watch.currency+config.watch.asset+".csv",
+  // Fields to add in CSV. Can be omitted or reorders
+  fields:[
+    "method",
+    // "exchange","currency","asset",
+    // "candleSize","historySize",
+    "patchs",
+    // "startTime","endTime","timespan",
+    // "startPrice","endPrice",
+    "market",
+    "trades",
+    // "startBalance","balance","profit",
+    "relativeProfit",
+    "relativeResult"
+  ],
+  // Lists of modification to apply in config.
+  patchs:[
+    { // 10
+      path: "MACD.short",
+      loop: ["5", "<= 15", "+ 5"], // Normal:10
+    },
+    { // 21
+      path: "MACD.long",
+      loop: ["16", "<= 26", "+ 5"], // Normal:21
+    },
+    { // 9
+      path: "MACD.signal",
+      loop: ["8", "<= 10", "+ 1"], // Normal:9
+    },
+    // Sample of complex loop with sliding window
+    // {
+    //   path:"backtest.daterange",
+    //   exloop:[
+    //     'config.{}={from:"2016-01-01", to: "2016-04-01"}',
+    //     'moment(config.{}.to).isBefore("2017-12-15")',
+    //     'slidingWindow(config.{},1, "month")',
+    //     '// require nothing in global scope',
+    //   ],
+    // },
+  ],
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 // set this to true if you understand that Gekko will
 // invest according to how you configured the indicators.
 // None of the advice in the output is Gekko telling you
