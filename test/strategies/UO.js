@@ -77,6 +77,8 @@ describe('strategies/UO', function() {
     start.add(1, "hour")
   }
   it('should produce trades without error', function(done) {
+    mock.settings=config.UO;
+    mock.tradingAdvisor=config.tradingAdvisor;
     const tradeHistory = mock.inject(candles).getTradeHistory();
     assert(tradeHistory.length > 0);
     assert.deepEqual(tradeHistory, trades);

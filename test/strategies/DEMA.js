@@ -75,6 +75,8 @@ describe('strategies/DEMA', function() {
     start.add(1, "hour")
   }
   it('should produce trades without error', function(done) {
+    mock.settings=config.DEMA;
+    mock.tradingAdvisor=config.tradingAdvisor;
     const tradeHistory = mock.inject(candles).getTradeHistory();
     assert(tradeHistory.length > 0);
     assert.deepEqual(tradeHistory, trades);
