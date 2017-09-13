@@ -33,7 +33,7 @@ config.watch = {
 config.tradingAdvisor = {
   enabled: true,
   method: 'MACD',
-  candleSize: 60, // FIXME: 1
+  candleSize: 1,
   historySize: 3,
   adapter: 'sqlite',
   talib: {
