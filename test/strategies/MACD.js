@@ -16,7 +16,6 @@ config.MACD={
   }
 };
 const MockGekko=require("./mockGekko.js");
-const mock=MockGekko(require('../../strategies/MACD.js'));
 
 
 const prices = [81, 24, 75, 21, 34, 25, 72, 92, 99, 2, 86, 80, 76, 8, 87, 75, 32, 65, 41, 9, 13, 26, 56, 28, 65, 58, 17, 90, 87, 86, 99, 3, 70, 1, 27, 9, 92, 68, 9];
@@ -78,8 +77,7 @@ describe('strategies/MACD', function() {
     start.add(1, "hour")
   }
   it('should produce trades without error', function(done) {
-    mock.settings=config.MACD;
-    mock.tradingAdvisor=config.tradingAdvisor;
+    const mock=MockGekko(require('../../strategies/MACD.js'),config.MACD);
     const tradeHistory = mock.inject(candles).getTradeHistory();
     assert(tradeHistory.length > 0);
     assert.deepEqual(tradeHistory, trades);
