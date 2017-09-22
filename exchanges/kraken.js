@@ -49,8 +49,10 @@ var addPrefix = function(value) {
 
   if(isFiat(value))
     return fiatPrefix + value;
-  else if(isCrypto(value))
+  else if(isCrypto(value)) {
+    if (value === "DASH") return value;
     return cryptoPrefix + value;
+  }
   else
     return value;
 }
@@ -67,8 +69,14 @@ var Trader = function(config) {
 
   // We need to prefix the asset and currency
   // with either Z or X on all markets.
-  // EXCEPT for BCH markets..
+  // EXCEPT for BCH,DASH,EOS,GNO markets..
   if(this.asset === 'BCH')
+    this.pair = this.asset + this.currency;
+  else if(this.asset === 'DASH')
+    this.pair = this.asset + this.currency;
+  else if(this.asset === 'EOS')
+    this.pair = this.asset + this.currency;
+  else if(this.asset === 'GNO')
     this.pair = this.asset + this.currency;
   else
     this.pair = addPrefix(this.asset) + addPrefix(this.currency);
