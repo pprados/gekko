@@ -388,7 +388,7 @@ function start() {
 const BACK_TEST = /(\d+) *(.+)/.exec(config.lab.backTest); // 1 mois en arrière
 const DURING_TEST = /(\d+) *(.+)/.exec(config.lab.duringTest); // Pendant 2 mois
 const SLIDING_WINDOWS = /(\d+) *(.+)/.exec(config.lab.slidingWindows); // Glissement de 1 mois
-const MAX_DATE = (config.lab.maxDate) ? moment(config.lab.maxDate).unix() : undefined; // Date max
+const MAX_DATE = (config.lab.maxDate) ? moment(config.lab.maxDate) : undefined; // Date max
 
 results={};
 var plugin=(program.autoOptimize !== undefined);
@@ -400,17 +400,21 @@ function startReportInResults() {
 // Sliding windows depuis les x derniers mois
   for (var j=0;j<config.lab.patchs.length;++j) {
     if (config.lab.patchs[j].path === "backtest.daterange") {
-      var now=Date.now();
-      var max=(MAX_DATE === undefined) ? now : MAX_DATE;
-      var from=moment(now).subtract(BACK_TEST[1],BACK_TEST[2]).startOf('month');
-      var to=moment(from).add(DURING_TEST[1],DURING_TEST[2]);
-      if (to.isAfter(moment(max)))
-        to=moment.unix(max);
-      var last= moment(now+1000); // Add 1s
+      if (MAX_DATE !== undefined) {
+        var max=MAX_DATE;
+        var from=moment(MAX_DATE).subtract(Number(BACK_TEST[1]),BACK_TEST[2]).startOf('day');
+      }
+      else {
+        var max=moment().startOf('day').add(1,'second');
+        var from=moment().subtract(Number(BACK_TEST[1]),BACK_TEST[2]).startOf('day');
+      }
+      var to=moment(from).add(Number(DURING_TEST[1]),DURING_TEST[2]);
+      if (to.isAfter(max))
+        to=max;
       config.lab.patchs[j].exloop= [
         'config.{}={from:"'+from.format('YYYY-MM-DD HH:mm:ss')+'", to: "'+to.format('YYYY-MM-DD HH:mm:ss')+'"}',
-        'moment(config.{}.to).isBefore("'+last.format('YYYY-MM-DD HH:mm:ss')+'")',
-        'slidingWindow(config.{},'+SLIDING_WINDOWS[1]+', "'+SLIDING_WINDOWS[2]+'")',
+        'moment(config.{}.to).isBefore("'+max.format('YYYY-MM-DD HH:mm:ss')+'")',
+        'slidingWindow(config.{},'+Number(SLIDING_WINDOWS[1])+', "'+SLIDING_WINDOWS[2]+'")',
         '// require nothing in global scope',
       ]
     }

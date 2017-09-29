@@ -467,12 +467,9 @@ config.importer = {
 config.lab={
   enabled:true,
   file:"labs/"+config.tradingAdvisor.method+"-"+config.watch.currency+config.watch.asset+".csv",
-  backTest : "1 week",
-  duringTest: "1 week",
+  backTest : "2 month",
+  duringTest: "1 month",
   slidingWindows: "1 week",
-  // backTest : "6 week",
-  // duringTest: "2 week",
-  // slidingWindows: "1 week",
   maxDate: "2017-03-01", // Without maxDate, use the current date
   // Fields to add in CSV. Can be omitted or reorders
   fields:[
@@ -510,9 +507,9 @@ config.lab={
     {
       path:"backtest.daterange",
       exloop:[
-        'config.{}={from:"2017-01-01", to: "2017-03-25"}',
-        'moment(config.{}.to).isBefore("2017-04-01")',
-        'slidingWindow(config.{},1, "month")',
+        'config.{}={from:"2017-01-01", to: "2017-03-01"}',
+        'moment(config.{}.to).isBefore("2017-03-01")',
+        'slidingWindow(config.{},1, "week")',
         '// require nothing in global scope',
       ],
     },

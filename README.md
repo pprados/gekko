@@ -34,6 +34,7 @@ If Gekko helped you in any way, you can always leave me a tip at (BTC) 13r1jyivi
 - clone this repo
 ```shell
 $ git clone git@github.com:pprados/gekko.git
+$ cd gekko
 
 ```
 
