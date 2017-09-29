@@ -467,13 +467,13 @@ config.importer = {
 config.lab={
   enabled:true,
   file:"labs/"+config.tradingAdvisor.method+"-"+config.watch.currency+config.watch.asset+".csv",
-  backTest : "1 week", // x en arrière
-  duringTest: "1 week", // Pendant y
-  slidingWindows: "1 week", // Glissement de z
-  // backTest : "6 week", // x en arrière
-  // duringTest: "2 week", // Pendant y
-  // slidingWindows: "1 week", // Glissement de z
-  maxDate: "2017-03-25", // FIXME
+  backTest : "1 week",
+  duringTest: "1 week",
+  slidingWindows: "1 week",
+  // backTest : "6 week",
+  // duringTest: "2 week",
+  // slidingWindows: "1 week",
+  maxDate: "2017-03-01", // Without maxDate, use the current date
   // Fields to add in CSV. Can be omitted or reorders
   fields:[
     "method",

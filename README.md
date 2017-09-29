@@ -26,3 +26,41 @@ See [the installing Gekko doc](https://gekko.wizb.it/docs/installation/installin
 ## Final
 
 If Gekko helped you in any way, you can always leave me a tip at (BTC) 13r1jyivitShUiv9FJvjLH7Nh1ZZptumwW
+
+
+## My patch
+
+- Install nodejs and npm
+- clone this repo
+```shell
+$ git clone git@github.com:pprados/gekko.git
+
+```
+
+- Install dependecies
+```shell
+$ npm install
+$ npm install emailjs
+``` 
+
+- Start UI
+```shell
+$ node gekko --config sample-config.js --ui
+```
+
+- Import this datas : Poloniex, USDT/BTC, from 2017-01-01 to 2017-03-01.
+
+Then, it's possible to start a backtest
+```shell
+$ node gekko --config sample-config.js --backtest
+```
+
+To update the parameter between each test, and generate a CSV file
+```
+$ node labgekko --config sample-config.js --backtest
+```
+
+To search the better value of parameter and generate a file
+```
+$ node labgekko --config sample-config.js --backtest --auto-optimize
+```
