@@ -77,38 +77,38 @@ const origin_candles=[
 ];
 
 var expectedTrades = [
-  { price: 110,amount: -1,date: '2015-01-01 01:00:00',profit: 110},
-  { price: 100,amount: 1,date: '2015-01-01 05:00:00',profit: 0},
-  { price: 120,amount: -1,date: '2015-01-01 06:00:00',profit: 20},
-  { price: 100,amount: 1,date: '2015-01-01 08:00:00',profit: 0},
-  { price: 120,amount: -1,date: '2015-01-01 10:00:00',profit: 20},
-  { price: 100,amount: 1,date: '2015-01-01 11:00:00',profit: 0},
-  { price: 101,amount: -1,date: '2015-01-01 14:00:00',profit: 1},
-  { price: 100,amount: 1,date: '2015-01-01 15:00:00',profit: 0},
-  { price: 101,amount: -1,date: '2015-01-01 17:00:00',profit: 1},
-  { price: 100,amount: 1,date: '2015-01-01 18:00:00',profit: 0},
-  { price: 102,amount: -1,date: '2015-01-01 20:00:00',profit: 2},
-  { price: 100,amount: 1,date: '2015-01-01 21:00:00',profit: 0},
-  { price: 102,amount: -1,date: '2015-01-01 23:00:00',profit: 2},
-  { price: 100,amount: 1,date: '2015-01-02 00:00:00',profit: 0},
-  { price: 110,amount: -1,date: '2015-01-02 02:00:00',profit: 10},
-  { price: 40,amount: 1,date: '2015-01-02 04:00:00',profit: 0},
-  { price: 110,amount: -1,date: '2015-01-02 08:00:00',profit: 70},
-  { price: 80,amount: 1,date: '2015-01-02 11:00:00',profit: 0},
-  { price: 90,amount: -1,date: '2015-01-02 13:00:00',profit: 10},
-  { price: 110,amount: 1,date: '2015-01-02 20:00:00',profit: 0},
-  { price: 150,amount: -1,date: '2015-01-02 21:00:00',profit: 40},
-  { price: 90,amount: 1,date: '2015-01-02 22:00:00',profit: 0},
-  { price: 160,amount: -1,date: '2015-01-03 00:00:00',profit: 70},
-  { price: 100,amount: 1,date: '2015-01-03 04:00:00',profit: 0},
-  { price: 200,amount: -1,date: '2015-01-03 05:00:00',profit: 100},
-  { price: 100,amount: 1,date: '2015-01-03 08:00:00',profit: 0},
-  { price: 200,amount: -1,date: '2015-01-03 09:00:00',profit: 100},
-  { price: 120,amount: 1,date: '2015-01-03 12:00:00',profit: 0},
-  { price: 160,amount: -1,date: '2015-01-03 14:00:00',profit: 40},
-  { price: 120,amount: 1,date: '2015-01-03 18:00:00',profit: 0},
-  { price: 160,amount: -1,date: '2015-01-03 20:00:00',profit: 40}
-];
+  {"price":110,"amount":-1,"date":"2015-01-01 01:00:00","profit":0},
+  {"price":100,"amount":1,"date":"2015-01-01 05:00:00","profit":-10},
+  {"price":120,"amount":-1,"date":"2015-01-01 06:00:00","profit":0},
+  {"price":100,"amount":1,"date":"2015-01-01 08:00:00","profit":-20},
+  {"price":120,"amount":-1,"date":"2015-01-01 10:00:00","profit":0},
+  {"price":100,"amount":1,"date":"2015-01-01 11:00:00","profit":-20},
+  {"price":101,"amount":-1,"date":"2015-01-01 14:00:00","profit":0},
+  {"price":100,"amount":1,"date":"2015-01-01 15:00:00","profit":-1},
+  {"price":101,"amount":-1,"date":"2015-01-01 17:00:00","profit":0},
+	{"price":100,"amount":1,"date":"2015-01-01 18:00:00","profit":-1},
+	{"price":102,"amount":-1,"date":"2015-01-01 20:00:00","profit":0},
+	{"price":100,"amount":1,"date":"2015-01-01 21:00:00","profit":-2},
+	{"price":102,"amount":-1,"date":"2015-01-01 23:00:00","profit":0},
+	{"price":100,"amount":1,"date":"2015-01-02 00:00:00","profit":-2},
+	{"price":110,"amount":-1,"date":"2015-01-02 02:00:00","profit":0},
+	{"price":40,"amount":1,"date":"2015-01-02 04:00:00","profit":-70},
+	{"price":110,"amount":-1,"date":"2015-01-02 08:00:00","profit":0},
+	{"price":80,"amount":1,"date":"2015-01-02 11:00:00","profit":-30},
+	{"price":90,"amount":-1,"date":"2015-01-02 13:00:00","profit":0},
+	{"price":110,"amount":1,"date":"2015-01-02 20:00:00","profit":20},
+	{"price":150,"amount":-1,"date":"2015-01-02 21:00:00","profit":0},
+	{"price":90,"amount":1,"date":"2015-01-02 22:00:00","profit":-60},
+	{"price":160,"amount":-1,"date":"2015-01-03 00:00:00","profit":0},
+	{"price":100,"amount":1,"date":"2015-01-03 04:00:00","profit":-60},
+	{"price":200,"amount":-1,"date":"2015-01-03 05:00:00","profit":0},
+	{"price":100,"amount":1,"date":"2015-01-03 08:00:00","profit":-100},
+	{"price":200,"amount":-1,"date":"2015-01-03 09:00:00","profit":0},
+	{"price":120,"amount":1,"date":"2015-01-03 12:00:00","profit":-80},
+	{"price":160,"amount":-1,"date":"2015-01-03 14:00:00","profit":0},
+	{"price":120,"amount":1,"date":"2015-01-03 18:00:00","profit":-40},
+	{"price":160,"amount":-1,"date":"2015-01-03 20:00:00","profit":0}
+	];
 
 describe('strategies/CandlesPatterns', function() {
 
@@ -166,7 +166,7 @@ describe('strategies/CandlesPatterns', function() {
     assert(tradesHistory.length == 0);
     test_candles.push({open: 100, close: 110, high: 160, low: 100, start:start.format('YYYY-MM-DD HH:mm:ss')});
     tradesHistory = mock.inject(test_candles).getTradeHistory();
-    var expectedTrades=[ { price: 110, amount: -1, date: '2015-01-01 02:00:00', profit: 110 } ];
+    var expectedTrades=[ { price: 110, amount: -1, date: '2015-01-01 02:00:00', profit: 0 } ];
     assert.deepEqual(tradesHistory, expectedTrades);
     done();
   });

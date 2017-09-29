@@ -5,29 +5,33 @@
  * assert.deepEqual(tradeHistory,trades)
  */
 const Base = require(__dirname +'/../../plugins/tradingAdvisor/baseTradingMethod.js');
+const config = require('../../core/util.js').getConfig();
 
-function MockGekkoForStrategy(strategy,adviceCB) {
+function MockGekkoForStrategy(strategy,settings,adviceCB) {
 
   if (adviceCB === undefined) {
     adviceCB = function(newPosition) {
       const candle=this.mock.candle;
       var trade;
       if (newPosition === 'short') {
-        this.buyPrice=candle.close;
         trade={price: candle.close, amount: +1, date: candle.start,profit:(candle.close-this.buyPrice)};
+        this.buyPrice=0;
         this.mock.trades.push(trade);
       } else {
-        trade={price: candle.close, amount: -1, date: candle.start,profit:(candle.close-this.buyPrice)};
+        trade={price: candle.close, amount: -1, date: candle.start,profit:0};
+        this.buyPrice=candle.close;
         this.mock.trades.push(trade);
       }
     }
   }
   function MockGekko() {
     this.indicators={};
+    this.settings=settings;
     this.buyPrice=0;
     this.mock={
       trades:[],
     };
+    this.tradingAdvisor=config.tradingAdvisor;
   }
   MockGekko.prototype = strategy;
   if (strategy.init === undefined) {
