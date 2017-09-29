@@ -169,7 +169,7 @@ var util = {
       minTimeout: 1 * 1000,
       maxTimeout: 3 * 1000
     });
- 
+
     operation.attempt(function(currentAttempt) {
       fn(function(err, result) {
         if (operation.retry(err)) {
@@ -190,6 +190,7 @@ program
   .option('-b, --backtest', 'backtesting mode')
   .option('-i, --import', 'importer mode')
   .option('--ui', 'launch a web UI')
+  .option('--auto-optimize', 'backtest with generation of config')
   .parse(process.argv);
 
 // make sure the current node version is recent enough

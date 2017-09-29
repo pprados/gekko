@@ -16,6 +16,7 @@
   "author": "Mike van Rossum <mike@mvr.me>",
   "dependencies": {
     "@slack/client": "^3.10.0",
+    "assert": "^1.4.1",
     "async": "2.1.2",
     "bitexthai": "^0.1.0",
     "bitfinex-api-node": "0.2.9",
@@ -26,9 +27,10 @@
     "btc-markets": "0.0.6",
     "cexio": "0.0.x",
     "co-fs": "^1.2.0",
-    "commander": "^2.9.0",
+    "commander": "^2.11.0",
     "gdax": "^0.4.2",
     "gekko": "0.0.9",
+    "htmlhint": "^0.9.13",
     "humanize-duration": "^3.10.0",
     "koa": "^1.2.0",
     "koa-bodyparser": "^2.2.0",
@@ -58,7 +60,7 @@
     "zaif.jp": "^0.1.4"
   },
   "devDependencies": {
-    "chai": "^2.0.0",
+    "chai": "^2.3.0",
     "mocha": "^2.1.1",
     "proxyquire": "^1.7.10",
     "sinon": "^1.12.2"

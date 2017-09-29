@@ -55,7 +55,7 @@ var pluginHelper = {
     return error;
   },
   // loads a plugin
-  // 
+  //
   // @param Object plugin
   //    plugin config object
   // @param Function next
@@ -78,10 +78,10 @@ var pluginHelper = {
       return next();
     }
 
-    log.info('Setting up:');
-    log.info('\t', plugin.name);
-    log.info('\t', plugin.description);
-
+    // log.info('Setting up:');
+    // log.info('\t', plugin.name);
+    // log.info('\t', plugin.description);
+    //
     var cannotLoad = pluginHelper.cannotLoad(plugin);
     if(cannotLoad)
       return next(cannotLoad);
@@ -100,12 +100,12 @@ var pluginHelper = {
       var instance = new Constructor(plugin);
       instance.meta = plugin;
       _.defer(function() {
-        next(null, instance); 
+        next(null, instance);
       });
     }
 
-    if(!plugin.silent)
-      log.info('\n');
+    // if(!plugin.silent)
+    //   log.info('\n');
   }
 }
 
