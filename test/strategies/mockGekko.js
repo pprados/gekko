@@ -14,11 +14,12 @@ function MockGekkoForStrategy(strategy,settings,adviceCB) {
       const candle=this.mock.candle;
       var trade;
       if (newPosition === 'short') {
-        this.buyPrice=candle.close;
         trade={price: candle.close, amount: +1, date: candle.start,profit:(candle.close-this.buyPrice)};
+        this.buyPrice=0;
         this.mock.trades.push(trade);
       } else {
-        trade={price: candle.close, amount: -1, date: candle.start,profit:(candle.close-this.buyPrice)};
+        trade={price: candle.close, amount: -1, date: candle.start,profit:0};
+        this.buyPrice=candle.close;
         this.mock.trades.push(trade);
       }
     }
