@@ -12,17 +12,24 @@ const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
 const util = require(__dirname + '/core/util');
+const config = util.getConfig();
 const moment = require('moment');
 const promisify = require('tiny-promisify');
 const pipelineRunner = promisify(require(__dirname + '/core/workers/pipeline/parent'));
 const log = require(__dirname + '/core/log');
 const scan = require(__dirname + '/core/tools/dateRangeScanner');
 const Mailer = require( __dirname + '/plugins/mailer');
-var program = require('commander');
-
-const config = util.getConfig();
+const program = require('commander');
 if (config.lab === undefined ) process.exit(0);
 if (config.lab.enabled === false) process.exit(0);
+
+config.paperTrader.enabled=true;
+config.mailer.enabled=false;
+config.adviceLogger.enabled=false;
+config.trader.enabled=false;
+config.trader.trader=false;
+
+
 const csvpath=config.lab.file;
 
 const CSV_SEPARATOR=';';
@@ -360,9 +367,6 @@ function resetFile() {
 // And start the recursive loop
 function start() {
   resetFile();
-  config.mailer.enabled=false;
-  config.adviceLogger.enabled=false;
-  config.trader.enabled=false;
   const startTime=Date.now();
   loopContext.loopAllPatchsAsync(function(loop) {
       if (debug) {

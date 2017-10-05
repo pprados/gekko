@@ -46,8 +46,3 @@ TMP_*
 .idea
 volumes
 SECRET-api-keys.json
-*pprados*
-*kyrian*
-*PPR*
-*raspberry*
-systemd/*
