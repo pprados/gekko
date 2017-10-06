@@ -5,7 +5,7 @@ const settings={
   strategy:'median',     // 'max', 'average', 'median' or 'fixed'
   dojiLimit:4/100,        // Doji is limited to 4% of the current scale
   shortLimit:15/100,      // Short body is limited to 15% of the current scale
-  longLimit:50/100,       // Long body must be bigger of 20% of the current scale FIXME
+  longLimit:50/100,       // Long body must be bigger of 50% of the current scale
   sameShadowLimit:4/100,  // Tolerance of 4% when compare equality of two shadows
   persistanceBeforHammerOrHangingMan:2, // Number of candle in the same direction before an Hammer or HangingMan
 };
@@ -232,13 +232,13 @@ describe('indicators/CandlesPatterns', function() {
     indicator.update({open: 100, close: 90, high: 100, low: 90});
     indicator.update({open: 90, close: 80, high: 90, low: 80});
     indicator.update({open: 100, close: 110, high: 110, low: 50})
-    indicator.name.should.equal('Hammer'); // FIXME: doit etre la continuété de la baisse en open ?
+    indicator.name.should.equal('Hammer');
     assert(indicator.result > 0);
     indicator.update({open: 110, close: 100, high: 150, low: 50});
     indicator.update({open: 100, close: 90, high: 100, low: 90});
     indicator.update({open: 90, close: 80, high: 90, low: 80});
     indicator.update({open: 110, close: 100, high: 110, low: 50})
-    indicator.name.should.equal('Hammer'); // FIXME: doit etre la continuété de la baisse en open ?
+    indicator.name.should.equal('Hammer');
     assert(indicator.result > 0);
     done();
   });
@@ -255,13 +255,13 @@ describe('indicators/CandlesPatterns', function() {
     indicator.update({open: 90, close: 100, high: 100, low: 90});
     indicator.update({open: 100, close: 110, high: 110, low: 100});
     indicator.update({open: 110, close: 120, high: 120, low: 50})
-    indicator.name.should.equal('HangingMan');// FIXME: doit etre la continuété de la hausse en open ?
+    indicator.name.should.equal('HangingMan');
     assert(indicator.result < 0);
     indicator.update({open: 30, close: 90, high: 90, low: 30});
     indicator.update({open: 90, close: 100, high: 100, low: 90});
     indicator.update({open: 100, close: 110, high: 110, low: 100});
     indicator.update({open: 120, close: 110, high: 120, low: 50})
-    indicator.name.should.equal('HangingMan');// FIXME: doit etre la continuété de la hausse en open ?
+    indicator.name.should.equal('HangingMan');
     assert(indicator.result < 0);
     done();
   });
@@ -277,7 +277,7 @@ describe('indicators/CandlesPatterns', function() {
     //       |
     indicator.update({open: 100, close: 150, high: 150, low: 100}); // Monte
     indicator.update({open: 160, close: 90, high: 160, low: 90});   // Puis baisse en englobant
-    indicator.name.should.equal('HaramiDown');// FIXME: doit etre la continuété de la hausse en open ?
+    indicator.name.should.equal('HaramiDown');
     assert(indicator.result < 0);
     done();
   });
@@ -293,7 +293,7 @@ describe('indicators/CandlesPatterns', function() {
     //       |
     indicator.update({open: 150, close: 100, high: 150, low: 100}); // Descend
     indicator.update({open: 90, close: 160, high: 160, low: 90});   // Puis monte en englobant
-    indicator.name.should.equal('HaramiUp');// FIXME: doit etre la continuété de la hausse en open ?
+    indicator.name.should.equal('HaramiUp');
     assert(indicator.result > 0);
     done();
   });
@@ -314,14 +314,14 @@ describe('indicators/CandlesPatterns', function() {
     indicator.update({open: 10, close: 150, high: 150, low: 10}); // Up
     indicator.update({open: 160, close: 170, high: 175, low: 155}); // Star with gap
     indicator.update({open: 150, close: 100, high: 150, low: 100}); // then down
-    indicator.name.should.equal('EveningStar');// FIXME: doit etre la continuété de la hausse en open ?
+    indicator.name.should.equal('EveningStar');
     assert(indicator.result < 0);
     indicator.resetScale();
     indicator.update({open: 10, close: 200, high: 200, low: 10});
     indicator.update({open: 50, close: 150, high: 150, low: 50}); // Up
     indicator.update({open: 170, close: 160, high: 175, low: 155}); // Star with gap
     indicator.update({open: 150, close: 100, high: 150, low: 100}); // then down
-    indicator.name.should.equal('EveningStar');// FIXME: doit etre la continuété de la hausse en open ?
+    indicator.name.should.equal('EveningStar');
     assert(indicator.result < 0);
     done();
   });
@@ -344,7 +344,7 @@ describe('indicators/CandlesPatterns', function() {
     indicator.update({open: 200, close: 120, high: 200, low: 120}); // Down
     indicator.update({open: 110, close: 100, high: 115, low: 95});  // Star with gap
     indicator.update({open: 120, close: 160, high: 160, low: 120}); // then up
-    indicator.name.should.equal('MorningStar');// FIXME: doit etre la continuété de la hausse en open ?
+    indicator.name.should.equal('MorningStar');
     assert(indicator.result > 0);
     indicator.resetScale();
     indicator.resetScale();
@@ -354,7 +354,7 @@ describe('indicators/CandlesPatterns', function() {
     indicator.update({open: 160, close: 120, high: 160, low: 120}); // Down
     indicator.update({open: 100, close: 110, high: 115, low: 95});  // Star with gap
     indicator.update({open: 120, close: 160, high: 160, low: 120}); // then down
-    indicator.name.should.equal('MorningStar');// FIXME: doit etre la continuété de la hausse en open ?
+    indicator.name.should.equal('MorningStar');
     assert(indicator.result > 0);
     done();
   });

@@ -283,7 +283,7 @@ Indicator.prototype.analyseOneCandle = function(last) {
       // ### or OOO
       //  |      |
       last.name=this.name="LongUpperShadow";
-      this.result=last.pattern.direction; //FIXME
+      this.result=last.pattern.direction;
     }
   } else if (
     (last.pattern.lowerShadow >= 2 * last.pattern.realBody) &&
@@ -299,7 +299,7 @@ Indicator.prototype.analyseOneCandle = function(last) {
       //  |    |    |
       // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/Dragonfly%20Doji.html
       last.name=this.name = "DragonflyDoji";
-      this.result = last.pattern.direction; //FIXME
+      this.result = last.pattern.direction;
     } else {
       //  |    |
       // ###  OOO
@@ -336,7 +336,7 @@ Indicator.prototype.analyseOneCandle = function(last) {
       //  |    |    |
       // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/Doji.html
       last.name=this.name="LongLeggedDoji";
-      this.result=last.pattern.direction; // FIXME
+      this.result=last.pattern.direction;
     } else if (
       (last.pattern.upperShadow >= 2 * last.pattern.realBody) &&
       (last.pattern.lowerShadow >= 2 * last.pattern.realBody)
@@ -362,7 +362,7 @@ Indicator.prototype.analyseOneCandle = function(last) {
     //  |    |    |
     // @see http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/Doji.html
     last.name=this.name="Doji";
-    this.result=last.pattern.direction; // FIXME
+    this.result=last.pattern.direction;
   }
 };
 

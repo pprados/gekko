@@ -8,7 +8,7 @@ var config = {};
 //                          GENERAL SETTINGS
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-config.debug = false; // for additional logging / debugging
+config.debug = true; // for additional logging / debugging
 config.silent = false;
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -18,9 +18,8 @@ config.silent = false;
 config.watch = {
 
   // see https://gekko.wizb.it/docs/introduction/supported_exchanges.html
-  exchange: 'poloniex',
-  currency: 'USDT',
-  asset: 'BTC',
+  //exchange: 'poloniex', currency: 'USDT', asset: 'BTC',
+  exchange: 'kraken', currency: 'EUR', asset: 'XBT',
 
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
@@ -35,7 +34,7 @@ config.watch = {
 config.tradingAdvisor = {
   enabled: true,
   method: 'MACD',
-  candleSize: 60*24,
+  candleSize: 1,
   historySize: 3,
   adapter: 'sqlite',
   talib: {
@@ -420,7 +419,7 @@ config.mongodb = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Note that these settings are only used in backtesting mode, see here:
-// @link: https://github.com/askmike/gekko/blob/stable/docs/Backtesting.md
+// @link: https://gekko.wizb.it/docs/commandline/backtesting.html
 
 config.backtest = {
 //  daterange: 'scan',
